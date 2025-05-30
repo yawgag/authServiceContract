@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package authContract;
+
+service AuthService {
+    rpc Register(RegisterRequest) returns (Tokens);
+    rpc Login(LoginRequest) returns (Tokens);
+    rpc Logout(LogoutRequest) returns (google.protobuf.Empty);
+    rpc UpdateAccessToken(UpdateAccessRequest) returns (UpdateAccessResponse);
+    rpc NewRole(NewRoleRequest) returns (google.protobuf.Empty);
+    rpc ChangeUserRole(ChangeRoleRequest) returns (google.protobuf.Empty); 
+}
+
+message RegisterRequest {
+    string login = 1;
+    string password = 2;
+    string userRole = 3;
+}
+
+message LoginRequest {
+    string login = 1;
+    string password = 2;
+}
+
+message Tokens {
+    string accessToken = 1;
+    string refreshTokenId = 2;
+}
+
+message LogoutRequest {
+    string refreshTokenId = 1;
+}
+
+message NewRoleRequest {
+    string roleName = 1;
+}
+
+message ChangeRoleRequest {
+    string login = 1;
+    string roleName = 2;
+}
+
+message UpdateAccessRequest {
+    string refreshTokenId = 1;
+}
+
+message UpdateAccessResponse {
+    string newAccessToken = 1;
+}
