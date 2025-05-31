@@ -5,18 +5,36 @@ import "google/protobuf/empty.proto";
 package authContract;
 
 service AuthService {
+    // user methods
     rpc Register(RegisterRequest) returns (Tokens);
     rpc Login(LoginRequest) returns (Tokens);
-    rpc Logout(LogoutRequest) returns (google.protobuf.Empty);
-    rpc UpdateAccessToken(UpdateAccessRequest) returns (UpdateAccessResponse);
+    rpc Logout(LogoutRequest) returns (google.protobuf.Empty); // refresh token in metadata
+
+    rpc ChangePassword(ChangePasswordRequest) returns (google.protobuf.Empty); // access token in metadata
+    rpc ChangeEmail(ChangeEmailRequest) returns (google.protobuf.Empty); // access token in metadata
+
+    rpc UserDeleteAccount(UserDeleteAccRequest) returns (google.protobuf.Empty); // refresh token in metadata
+    rpc LogoutAllSessions(google.protobuf.Empty) returns (google.protobuf.Empty); // access token in metadata
+
+
+    // admin methods
     rpc NewRole(NewRoleRequest) returns (google.protobuf.Empty);
     rpc ChangeUserRole(ChangeRoleRequest) returns (google.protobuf.Empty); 
+
+    rpc GetUserData(GetUserRequest) returns (GetUserResponse);
+
+    rpc AdminDeleteAccount(AdminTargetUserRequest) returns (google.protobuf.Empty);
+    rpc AdminLogoutUserSessions(AdminTargetUserRequest) returns (google.protobuf.Empty);
+
+
+    // internal methods
+    rpc UpdateAccessToken(UpdateAccessRequest) returns (UpdateAccessResponse);
 }
 
 message RegisterRequest {
     string login = 1;
     string password = 2;
-    string userRole = 3;
+    string email = 3;
 }
 
 message LoginRequest {
@@ -27,10 +45,6 @@ message LoginRequest {
 message Tokens {
     string accessToken = 1;
     string refreshTokenId = 2;
-}
-
-message LogoutRequest {
-    string refreshTokenId = 1;
 }
 
 message NewRoleRequest {
@@ -48,4 +62,33 @@ message UpdateAccessRequest {
 
 message UpdateAccessResponse {
     string newAccessToken = 1;
+}
+
+message ChangePasswordRequest {
+    string oldPassword = 1;
+    string newPassword = 2;
+}
+
+message ChangeEmailRequest {
+    string password = 1;
+    string newEmail = 2;
+}
+
+message GetUserRequest {
+    string login = 1;
+}
+
+message GetUserResponse {
+    string userId = 1;
+    string login = 2;
+    string email = 3;
+    string role = 4;
+}
+
+message UserDeleteAccRequest {
+    string password = 1;
+}
+
+message AdminTargetUserRequest {
+    string login = 1;
 }
