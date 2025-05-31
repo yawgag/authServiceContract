@@ -8,7 +8,7 @@ service AuthService {
     // user methods
     rpc Register(RegisterRequest) returns (Tokens);
     rpc Login(LoginRequest) returns (Tokens);
-    rpc Logout(LogoutRequest) returns (google.protobuf.Empty); // refresh token in metadata
+    rpc Logout(google.protobuf.Empty) returns (google.protobuf.Empty); // refresh token in metadata
 
     rpc ChangePassword(ChangePasswordRequest) returns (google.protobuf.Empty); // access token in metadata
     rpc ChangeEmail(ChangeEmailRequest) returns (google.protobuf.Empty); // access token in metadata
