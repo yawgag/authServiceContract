@@ -29,6 +29,7 @@ service AuthService {
 
     // internal methods
     rpc UpdateAccessToken(UpdateAccessRequest) returns (UpdateAccessResponse);
+    rpc GetPublicRSAKey(google.protobuf.Empty) returns (PublicKeyResponse);
 }
 
 message RegisterRequest {
@@ -91,4 +92,8 @@ message UserDeleteAccRequest {
 
 message AdminTargetUserRequest {
     string login = 1;
+}
+
+message PublicKeyResponse {
+    string publicKey = 1;
 }
