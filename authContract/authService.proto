@@ -8,27 +8,27 @@ service AuthService {
     // user methods
     rpc Register(RegisterRequest) returns (Tokens);
     rpc Login(LoginRequest) returns (Tokens);
-    rpc Logout(google.protobuf.Empty) returns (google.protobuf.Empty); // refresh token in metadata
+    rpc Logout(google.protobuf.Empty) returns (google.protobuf.Empty); // refresh token in metadata(refresh-token)
 
-    rpc ChangePassword(ChangePasswordRequest) returns (google.protobuf.Empty); // access token in metadata
+    rpc ChangePassword(ChangePasswordRequest) returns (google.protobuf.Empty); // access token in metadata(authorization)
     rpc ChangeEmail(ChangeEmailRequest) returns (google.protobuf.Empty); // access token in metadata
 
     rpc UserDeleteAccount(UserDeleteAccRequest) returns (google.protobuf.Empty); // refresh token in metadata
-    rpc LogoutAllSessions(google.protobuf.Empty) returns (google.protobuf.Empty); // access token in metadata
+    rpc UserLogoutAllSessions(google.protobuf.Empty) returns (LogoutSessionResponse); // access token in metadata
 
 
     // admin methods
     rpc NewRole(NewRoleRequest) returns (google.protobuf.Empty);
-    rpc ChangeUserRole(ChangeRoleRequest) returns (google.protobuf.Empty); 
+    rpc ChangeUserRole(ChangeRoleRequest) returns (google.protobuf.Empty); // access token in metadata
 
-    rpc GetUserData(GetUserRequest) returns (GetUserResponse);
+    rpc GetUserData(AdminTargetUserRequest) returns (GetUserResponse);
 
     rpc AdminDeleteAccount(AdminTargetUserRequest) returns (google.protobuf.Empty);
-    rpc AdminLogoutUserSessions(AdminTargetUserRequest) returns (google.protobuf.Empty);
+    rpc AdminLogoutUserSessions(AdminTargetUserRequest) returns (LogoutSessionResponse);
 
 
     // internal methods
-    rpc UpdateAccessToken(UpdateAccessRequest) returns (UpdateAccessResponse);
+    rpc UpdateTokens(google.protobuf.Empty) returns (Tokens);
     rpc GetPublicRSAKey(google.protobuf.Empty) returns (PublicKeyResponse);
 }
 
@@ -45,7 +45,7 @@ message LoginRequest {
 
 message Tokens {
     string accessToken = 1;
-    string refreshTokenId = 2;
+    string refreshToken = 2;
 }
 
 message NewRoleRequest {
@@ -61,10 +61,6 @@ message UpdateAccessRequest {
     string refreshTokenId = 1;
 }
 
-message UpdateAccessResponse {
-    string newAccessToken = 1;
-}
-
 message ChangePasswordRequest {
     string oldPassword = 1;
     string newPassword = 2;
@@ -73,10 +69,6 @@ message ChangePasswordRequest {
 message ChangeEmailRequest {
     string password = 1;
     string newEmail = 2;
-}
-
-message GetUserRequest {
-    string login = 1;
 }
 
 message GetUserResponse {
@@ -96,4 +88,8 @@ message AdminTargetUserRequest {
 
 message PublicKeyResponse {
     string publicKey = 1;
+}
+
+message LogoutSessionResponse {
+    int32 NumberOfDeleteSessions = 1;
 }
