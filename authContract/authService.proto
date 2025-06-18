@@ -30,6 +30,7 @@ service AuthService {
     // internal methods
     rpc UpdateTokens(google.protobuf.Empty) returns (Tokens);
     rpc GetPublicRSAKey(google.protobuf.Empty) returns (PublicKeyResponse);
+    rpc GetUsersList(GetUsersRequest) returns (stream GetUserResponse)
 }
 
 message RegisterRequest {
@@ -92,4 +93,9 @@ message PublicKeyResponse {
 
 message LogoutSessionResponse {
     int32 NumberOfDeleteSessions = 1;
+}
+
+message GetUsersRequest {
+    int32 pageLimit = 1;
+    int32 pageNumber = 2;
 }
