@@ -30,7 +30,7 @@ service AuthService {
     // internal methods
     rpc UpdateTokens(google.protobuf.Empty) returns (Tokens);
     rpc GetPublicRSAKey(google.protobuf.Empty) returns (PublicKeyResponse);
-    rpc GetUsersList(GetUsersRequest) returns (stream GetUserResponse)
+    rpc GetUsersList(GetUsersRequest) returns (stream GetUserResponse);
 }
 
 message RegisterRequest {
@@ -73,7 +73,7 @@ message ChangeEmailRequest {
 }
 
 message GetUserResponse {
-    string userId = 1;
+    string uid = 1;
     string login = 2;
     string email = 3;
     string role = 4;
